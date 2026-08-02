@@ -1,0 +1,108 @@
+{
+  "info": {
+    "name": "School Portal API",
+    "description": "Endpoints for the School Portal take-home assignment (teachers and classes).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000" }
+  ],
+  "item": [
+    {
+      "name": "Teachers",
+      "item": [
+        {
+          "name": "List teachers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/teachers"
+          }
+        },
+        {
+          "name": "Create teacher",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/teachers",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mary\",\n  \"subject\": \"Mathematics\",\n  \"email\": \"teachermary@gmail.com\",\n  \"contactNumber\": \"68129414\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create teacher - duplicate email (409)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/teachers",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mary\",\n  \"subject\": \"Mathematics\",\n  \"email\": \"teachermary@gmail.com\",\n  \"contactNumber\": \"68129414\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create teacher - validation error (400)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/teachers",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"subject\": \"Mathematics\",\n  \"email\": \"not-an-email\",\n  \"contactNumber\": \"abc\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Classes",
+      "item": [
+        {
+          "name": "List classes",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/classes"
+          }
+        },
+        {
+          "name": "Create class",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/classes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"level\": \"Primary 1\",\n  \"name\": \"Class 1A\",\n  \"teacherEmail\": \"teachermary@gmail.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create class - unknown teacher (404)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/classes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"level\": \"Primary 1\",\n  \"name\": \"Class 1A\",\n  \"teacherEmail\": \"nobody@gmail.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create class - teacher already assigned (409)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/classes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"level\": \"Primary 2\",\n  \"name\": \"Class 2B\",\n  \"teacherEmail\": \"teachermary@gmail.com\"\n}"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

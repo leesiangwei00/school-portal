@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: school-portal-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install && npm run build
+    startCommand: npm run prisma:migrate:deploy && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: PORT
+        value: 4000
